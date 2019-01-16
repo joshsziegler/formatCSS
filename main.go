@@ -33,18 +33,11 @@ func main() {
 	css := string(cssByte)
 
 	if replaceFlag { // Remove and replace CSS variables
-		log.Printf("Removing CSS variables from %s (via search and replace)...", inputPath)
-
 		css = RemoveCSSVariables(css)
-
 		if removeNestedCalcFlag {
-			log.Printf("Removing nested CSS 'calc() expressions from %s (via search and replace)...", inputPath)
 			css = RemoveNestedCalc(css)
 		}
-
 		if minFlag { // Minimize CSS file
-			log.Printf("Minimizing %s ...", inputPath)
-
 			css = Minimize(css)
 		}
 		// Setup output file path
@@ -52,33 +45,22 @@ func main() {
 		inputFile := filepath.Base(inputPath)
 		outputFile := inputFile[0:len(inputFile)-3] + "min.css"
 		output := filepath.Join(outputDir, outputFile)
-
 		// Write CSS to file
-		log.Printf("Writing to %s ...", output)
 		ioutil.WriteFile(output, []byte(css), 0644)
 
 	} else if minFlag { // Minimize CSS file
-		log.Printf("Minimizing %s ...", inputPath)
-
 		css = Minimize(css)
-
 		// Setup output file path
 		outputDir := filepath.Dir(inputPath)
 		inputFile := filepath.Base(inputPath)
 		outputFile := inputFile[0:len(inputFile)-3] + "min.css"
 		output := filepath.Join(outputDir, outputFile)
-
 		// Write CSS to file
-		log.Printf("Writing to %s ...", output)
 		ioutil.WriteFile(output, []byte(css), 0644)
 
 	} else { // Format CSS file
-		log.Printf("Formatting %s ...", inputPath)
-
 		css = FormatCSS(css)
-
 		// Write CSS to file
-		log.Printf("Writing to %s ...", inputPath)
 		ioutil.WriteFile(inputPath, []byte(css), 0644)
 	}
 }
